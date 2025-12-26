@@ -1343,6 +1343,14 @@ exports.deletePlaylist = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Playlist not found' });
     }
 
+    // Запрет удаления системных и редакционных плейлистов
+    if (playlist.isSystem || ['editorial', 'auto', 'smart'].includes(playlist.type)) {
+      return res.status(403).json({ 
+        success: false, 
+        error: 'Cannot delete system, editorial or auto-generated playlists' 
+      });
+    }
+
     if (playlist.userId !== userId) {
       return res.status(403).json({ success: false, error: 'Access denied' });
     }

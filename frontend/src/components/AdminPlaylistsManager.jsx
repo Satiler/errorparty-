@@ -256,7 +256,8 @@ export default function AdminPlaylistsManager({ toast }) {
       fetchPlaylists()
     } catch (error) {
       console.error('Error deleting playlist:', error)
-      toast?.error('Ошибка удаления плейлиста')
+      const errorMessage = error.response?.data?.error || error.response?.data?.message || 'Ошибка удаления плейлиста'
+      toast?.error(errorMessage)
     }
   }
 
@@ -402,9 +403,16 @@ export default function AdminPlaylistsManager({ toast }) {
 
               {/* Info */}
               <div className="p-4">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 truncate">
-                  {playlist.name}
-                </h3>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate flex-1">
+                    {playlist.name}
+                  </h3>
+                  {(playlist.isSystem || ['editorial', 'auto', 'smart'].includes(playlist.type)) && (
+                    <span className="ml-2 px-2 py-1 text-xs font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full">
+                      Системный
+                    </span>
+                  )}
+                </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                   {playlist.description || 'Без описания'}
                 </p>
@@ -433,7 +441,9 @@ export default function AdminPlaylistsManager({ toast }) {
                   </button>
                   <button
                     onClick={() => handleDelete(playlist.id)}
-                    className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                    disabled={playlist.isSystem || ['editorial', 'auto', 'smart'].includes(playlist.type)}
+                    className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={playlist.isSystem || ['editorial', 'auto', 'smart'].includes(playlist.type) ? 'Системные плейлисты нельзя удалять' : 'Удалить плейлист'}
                   >
                     <FaTrash />
                   </button>

@@ -125,8 +125,9 @@ export const PlaylistProvider = ({ children }) => {
       }
     } catch (err) {
       console.error('Error deleting playlist:', err);
-      setError(err.response?.data?.message || 'Failed to delete playlist');
-      throw err;
+      const errorMessage = err.response?.data?.error || err.response?.data?.message || 'Failed to delete playlist';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsLoading(false);
     }
