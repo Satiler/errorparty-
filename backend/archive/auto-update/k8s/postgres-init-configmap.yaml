@@ -1,0 +1,188 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: music-auto-update
+data:
+  init.sql: |
+    -- Инициализация базы данных для автообновления плейлистов
+    
+    -- Создание расширений
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+    
+    -- История прослушиваний
+    CREATE TABLE IF NOT EXISTS listening_history (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        track_id INTEGER NOT NULL,
+        played_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        duration_played INTEGER,
+        source VARCHAR(50),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE
+    );
+    
+    -- Избранное пользователей
+    CREATE TABLE IF NOT EXISTS user_favorites (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        track_id INTEGER,
+        artist_id INTEGER,
+        album_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE,
+        FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE,
+        FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE CASCADE,
+        CONSTRAINT fk_type CHECK (
+            (track_id IS NOT NULL AND artist_id IS NULL AND album_id IS NULL) OR
+            (track_id IS NULL AND artist_id IS NOT NULL AND album_id IS NULL) OR
+            (track_id IS NULL AND artist_id IS NULL AND album_id IS NOT NULL)
+        )
+    );
+    
+    -- Ожидающие изменения плейлистов
+    CREATE TABLE IF NOT EXISTS playlist_pending_changes (
+        id SERIAL PRIMARY KEY,
+        playlist_id INTEGER NOT NULL,
+        changes_data JSONB NOT NULL,
+        status VARCHAR(20) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        reviewed_at TIMESTAMP,
+        reviewed_by INTEGER,
+        FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE
+    );
+    
+    -- Отслеживание артистов пользователями
+    CREATE TABLE IF NOT EXISTS user_artist_tracking (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        artist_id INTEGER NOT NULL,
+        notify_new_releases BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (artist_id) REFERENCES artists(id) ON DELETE CASCADE,
+        UNIQUE(user_id, artist_id)
+    );
+    
+    -- Логи импорта
+    CREATE TABLE IF NOT EXISTS import_logs (
+        id SERIAL PRIMARY KEY,
+        source VARCHAR(50) NOT NULL,
+        status VARCHAR(20) NOT NULL,
+        tracks_imported INTEGER DEFAULT 0,
+        tracks_skipped INTEGER DEFAULT 0,
+        tracks_failed INTEGER DEFAULT 0,
+        error_message TEXT,
+        started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        completed_at TIMESTAMP
+    );
+    
+    -- История чартов
+    CREATE TABLE IF NOT EXISTS chart_history (
+        id SERIAL PRIMARY KEY,
+        source VARCHAR(50) NOT NULL,
+        track_id INTEGER NOT NULL,
+        position INTEGER NOT NULL,
+        score DECIMAL(5,3),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE
+    );
+    
+    -- Уведомления пользователей
+    CREATE TABLE IF NOT EXISTS user_notifications (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        type VARCHAR(50) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        message TEXT,
+        data JSONB,
+        read BOOLEAN DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+    
+    -- Расширение таблицы tracks
+    DO $$ 
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='popularity_score') THEN
+            ALTER TABLE tracks ADD COLUMN popularity_score DECIMAL(5,3) DEFAULT 0;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='spotify_id') THEN
+            ALTER TABLE tracks ADD COLUMN spotify_id VARCHAR(255);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='apple_music_id') THEN
+            ALTER TABLE tracks ADD COLUMN apple_music_id VARCHAR(255);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='shazam_id') THEN
+            ALTER TABLE tracks ADD COLUMN shazam_id VARCHAR(255);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='billboard_position') THEN
+            ALTER TABLE tracks ADD COLUMN billboard_position INTEGER;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='isrc') THEN
+            ALTER TABLE tracks ADD COLUMN isrc VARCHAR(50);
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tracks' AND column_name='preview_url') THEN
+            ALTER TABLE tracks ADD COLUMN preview_url TEXT;
+        END IF;
+    END $$;
+    
+    -- Индексы для производительности
+    CREATE INDEX IF NOT EXISTS idx_listening_history_user ON listening_history(user_id);
+    CREATE INDEX IF NOT EXISTS idx_listening_history_track ON listening_history(track_id);
+    CREATE INDEX IF NOT EXISTS idx_listening_history_played_at ON listening_history(played_at);
+    CREATE INDEX IF NOT EXISTS idx_user_favorites_user ON user_favorites(user_id);
+    CREATE INDEX IF NOT EXISTS idx_user_favorites_track ON user_favorites(track_id);
+    CREATE INDEX IF NOT EXISTS idx_playlist_pending_changes_status ON playlist_pending_changes(status);
+    CREATE INDEX IF NOT EXISTS idx_chart_history_source ON chart_history(source);
+    CREATE INDEX IF NOT EXISTS idx_chart_history_track ON chart_history(track_id);
+    CREATE INDEX IF NOT EXISTS idx_chart_history_recorded_at ON chart_history(recorded_at);
+    CREATE INDEX IF NOT EXISTS idx_tracks_popularity ON tracks(popularity_score DESC);
+    CREATE INDEX IF NOT EXISTS idx_tracks_spotify_id ON tracks(spotify_id);
+    CREATE INDEX IF NOT EXISTS idx_tracks_isrc ON tracks(isrc);
+    
+    -- Триггер для обновления updated_at
+    CREATE OR REPLACE FUNCTION update_updated_at_column()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW.updated_at = CURRENT_TIMESTAMP;
+        RETURN NEW;
+    END;
+    $$ language 'plpgsql';
+    
+    DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_tracks_updated_at') THEN
+            CREATE TRIGGER update_tracks_updated_at
+            BEFORE UPDATE ON tracks
+            FOR EACH ROW
+            EXECUTE FUNCTION update_updated_at_column();
+        END IF;
+    END $$;
+    
+    -- Представления
+    CREATE OR REPLACE VIEW popular_tracks AS
+    SELECT 
+        t.*,
+        COUNT(DISTINCT lh.user_id) as listeners_count,
+        COUNT(lh.id) as plays_count,
+        AVG(t.popularity_score) as avg_popularity
+    FROM tracks t
+    LEFT JOIN listening_history lh ON t.id = lh.track_id
+    WHERE lh.played_at > CURRENT_TIMESTAMP - INTERVAL '7 days'
+    GROUP BY t.id
+    ORDER BY plays_count DESC, listeners_count DESC
+    LIMIT 100;
+    
+    CREATE OR REPLACE VIEW new_releases AS
+    SELECT t.*
+    FROM tracks t
+    WHERE t.created_at > CURRENT_TIMESTAMP - INTERVAL '30 days'
+    ORDER BY t.created_at DESC
+    LIMIT 100;
+    
+    -- Предоставление прав
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO music_user;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO music_user;

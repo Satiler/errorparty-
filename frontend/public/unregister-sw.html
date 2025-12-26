@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Очистка Service Worker</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>Удаление Service Worker...</h1>
+    <div id="status">Обработка...</div>
+    
+    <script>
+        (async function() {
+            const statusEl = document.getElementById('status');
+            
+            try {
+                if ('serviceWorker' in navigator) {
+                    // Получить все регистрации
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    
+                    statusEl.innerHTML = `Найдено регистраций: ${registrations.length}<br>`;
+                    
+                    // Удалить все
+                    for (let registration of registrations) {
+                        const result = await registration.unregister();
+                        statusEl.innerHTML += `Удалено: ${registration.scope} - ${result ? '✅' : '❌'}<br>`;
+                    }
+                    
+                    // Очистить все кеши
+                    const cacheNames = await caches.keys();
+                    statusEl.innerHTML += `<br>Найдено кешей: ${cacheNames.length}<br>`;
+                    
+                    for (let cacheName of cacheNames) {
+                        await caches.delete(cacheName);
+                        statusEl.innerHTML += `Кеш удален: ${cacheName}<br>`;
+                    }
+                    
+                    statusEl.innerHTML += '<br><h2 style="color: green;">✅ Готово! Теперь закройте ВСЕ вкладки errorparty.ru и откройте сайт заново.</h2>';
+                    
+                } else {
+                    statusEl.innerHTML = 'Service Worker не поддерживается';
+                }
+            } catch (error) {
+                statusEl.innerHTML = `Ошибка: ${error.message}`;
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO -->
+    <meta name="description" content="ErrorParty.ru - TeamSpeak community hub с мемами, статистикой и геймификацией" />
+    <meta name="keywords" content="teamspeak, gaming, community, errorparty, dota2, cs2" />
+    <title>ErrorParty.ru | Орден Шумоподавителей</title>
+    
+    <!-- PWA и иконки (только для браузера, не для Tauri) -->
+    <script>
+      // В Tauri приложении НЕ загружаем PWA ресурсы
+      if (!window.__TAURI__) {
+        // Основная иконка
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.type = 'image/svg+xml';
+        favicon.href = '/vite.svg';
+        document.head.appendChild(favicon);
+        
+        // PWA манифест
+        const manifest = document.createElement('link');
+        manifest.rel = 'manifest';
+        manifest.href = '/manifest.json';
+        document.head.appendChild(manifest);
+        
+        // iOS иконки
+        const appleIcon1 = document.createElement('link');
+        appleIcon1.rel = 'apple-touch-icon';
+        appleIcon1.href = '/icons/icon-152x152.png';
+        document.head.appendChild(appleIcon1);
+        
+        const appleIcon2 = document.createElement('link');
+        appleIcon2.rel = 'apple-touch-icon';
+        appleIcon2.sizes = '152x152';
+        appleIcon2.href = '/icons/icon-152x152.png';
+        document.head.appendChild(appleIcon2);
+        
+        const appleIcon3 = document.createElement('link');
+        appleIcon3.rel = 'apple-touch-icon';
+        appleIcon3.sizes = '180x180';
+        appleIcon3.href = '/icons/icon-192x192.png';
+        document.head.appendChild(appleIcon3);
+        
+        // Android иконки
+        const androidIcon1 = document.createElement('link');
+        androidIcon1.rel = 'icon';
+        androidIcon1.type = 'image/png';
+        androidIcon1.sizes = '192x192';
+        androidIcon1.href = '/icons/icon-192x192.png';
+        document.head.appendChild(androidIcon1);
+        
+        const androidIcon2 = document.createElement('link');
+        androidIcon2.rel = 'icon';
+        androidIcon2.type = 'image/png';
+        androidIcon2.sizes = '512x512';
+        androidIcon2.href = '/icons/icon-512x512.png';
+        document.head.appendChild(androidIcon2);
+      }
+    </script>
+    <meta name="theme-color" content="#00ffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ErrorParty" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

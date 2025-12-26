@@ -1,0 +1,152 @@
+# Default values for music-auto-update helm chart
+
+# Количество реплик (для основного сервиса должно быть 1 из-за singleton планировщика)
+replicaCount: 1
+
+image:
+  repository: your-registry.com/music-auto-update
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 3001
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: api.yourdomain.com
+      paths:
+        - path: /api/auto-update
+          pathType: Prefix
+  tls:
+    - secretName: auto-update-tls
+      hosts:
+        - api.yourdomain.com
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Настройки приложения
+config:
+  nodeEnv: production
+  port: 3001
+  logLevel: info
+  schedulerEnabled: true
+  enableCache: true
+  cacheTTL: 3600
+  
+  # Алгоритм
+  minScoreThreshold: 0.6
+  maxPlaylistSize: 100
+  updatePercentage: 0.15
+  requireModeration: true
+  trackTTL: 30
+  
+  # Веса источников
+  weightSpotify: 0.30
+  weightAppleMusic: 0.25
+  weightBillboard: 0.25
+  weightShazam: 0.20
+  
+  # Cron расписание
+  chartsUpdateCron: "0 3 * * *"
+  kissvkImportCron: "0 4 * * *"
+
+# Secrets (должны быть переопределены)
+secrets:
+  database:
+    url: "postgresql://music_user:password@postgres-service:5432/music_db"
+  redis:
+    host: "redis-service"
+    port: "6379"
+    password: ""
+  spotify:
+    clientId: "your_spotify_client_id"
+    clientSecret: "your_spotify_client_secret"
+  appleMusic:
+    teamId: "your_team_id"
+    keyId: "your_key_id"
+    privateKey: "-----BEGIN PRIVATE KEY-----\nYOUR_KEY\n-----END PRIVATE KEY-----"
+  shazam:
+    apiKey: "your_rapidapi_key"
+  jwt:
+    secret: "your_jwt_secret_key"
+
+# PostgreSQL
+postgresql:
+  enabled: true
+  auth:
+    username: music_user
+    password: password
+    database: music_db
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+
+# Redis
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+
+# Persistent Storage
+persistence:
+  music:
+    enabled: true
+    accessMode: ReadWriteMany
+    size: 50Gi
+    storageClass: ""
+  logs:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    storageClass: ""

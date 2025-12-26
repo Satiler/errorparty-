@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Music Player - Lmusic.kz & Yandex.Music</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .track {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .track:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.3);
+        }
+        .track-info {
+            flex: 1;
+        }
+        .track-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .track-artist {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .play-btn {
+            padding: 10px 20px;
+            background: #2196F3;
+            border-radius: 20px;
+        }
+        .play-btn:hover {
+            background: #0b7dda;
+        }
+        .player {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            display: none;
+        }
+        .player.active {
+            display: block;
+        }
+        audio {
+            width: 100%;
+            margin-top: 15px;
+        }
+        .now-playing {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .source-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+        .error {
+            background: rgba(255,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Music Player Test</h1>
+        
+        <div class="source-tabs">
+            <div class="tab active" data-source="lmusic" onclick="switchSource('lmusic')">
+                🎼 Lmusic.kz
+            </div>
+            <div class="tab" data-source="yandex" onclick="switchSource('yandex')">
+                🎵 Яндекс.Музыка
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Поиск треков..." value="Баста">
+            <button onclick="searchTracks()">🔍 Найти</button>
+        </div>
+
+        <div id="results" class="results"></div>
+
+        <div id="player" class="player">
+            <div class="now-playing">
+                Сейчас играет: <strong id="currentTrack"></strong>
+            </div>
+            <audio id="audioPlayer" controls></audio>
+        </div>
+    </div>
+
+    <script>
+        let currentSource = 'lmusic';
+
+        function switchSource(source) {
+            currentSource = source;
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.source === source);
+            });
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function searchTracks() {
+            const query = document.getElementById('searchInput').value;
+            const resultsDiv = document.getElementById('results');
+            
+            if (!query) {
+                alert('Введите запрос для поиска');
+                return;
+            }
+
+            resultsDiv.innerHTML = '<div class="loading">⏳ Поиск треков...</div>';
+
+            try {
+                const apiUrl = currentSource === 'lmusic' 
+                    ? `/api/music/lmusic/search?q=${encodeURIComponent(query)}&limit=10`
+                    : `/api/music/yandex/search?q=${encodeURIComponent(query)}&limit=10`;
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (!data.success || !data.tracks || data.tracks.length === 0) {
+                    resultsDiv.innerHTML = '<div class="error">❌ Треки не найдены</div>';
+                    return;
+                }
+
+                resultsDiv.innerHTML = '';
+                data.tracks.forEach(track => {
+                    const trackDiv = document.createElement('div');
+                    trackDiv.className = 'track';
+                    trackDiv.innerHTML = `
+                        <div class="track-info">
+                            <div class="track-title">${track.title}</div>
+                            <div class="track-artist">${track.artist}</div>
+                        </div>
+                        <button class="play-btn" onclick="playTrack('${track.streamUrl || track.downloadUrl}', '${track.artist} - ${track.title}')">
+                            ▶️ Play
+                        </button>
+                    `;
+                    resultsDiv.appendChild(trackDiv);
+                });
+
+            } catch (error) {
+                console.error('Search error:', error);
+                resultsDiv.innerHTML = '<div class="error">❌ Ошибка поиска: ' + error.message + '</div>';
+            }
+        }
+
+        function playTrack(url, title) {
+            const player = document.getElementById('player');
+            const audio = document.getElementById('audioPlayer');
+            const currentTrack = document.getElementById('currentTrack');
+
+            currentTrack.textContent = title;
+            audio.src = url;
+            audio.play();
+            player.classList.add('active');
+
+            console.log('Playing:', url);
+        }
+
+        // Автоматический поиск при загрузке
+        window.onload = () => {
+            searchTracks();
+        };
+
+        // Enter для поиска
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchTracks();
+        });
+    </script>
+</body>
+</html>

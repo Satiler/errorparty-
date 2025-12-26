@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Editorial API</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .playlist {
+            background: #222;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .cover {
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+        }
+        button {
+            background: #1db954;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Test Editorial Playlists API</h1>
+    <button onclick="loadPlaylists()">Загрузить плейлисты</button>
+    <div id="result"></div>
+
+    <script>
+        async function loadPlaylists() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Загрузка...</p>';
+
+            try {
+                const response = await fetch('/api/music/playlists/editorial');
+                const data = await response.json();
+                
+                console.log('API Response:', data);
+
+                if (!data.success) {
+                    resultDiv.innerHTML = `<p style="color: red;">❌ Ошибка: ${data.error || 'Unknown error'}</p>`;
+                    return;
+                }
+
+                let html = `<h2>✅ Загружено ${data.playlists.length} плейлистов</h2>`;
+                
+                data.playlists.slice(0, 10).forEach(p => {
+                    html += `
+                        <div class="playlist">
+                            <h3>[${p.id}] ${p.name}</h3>
+                            <p>Треков: ${p.trackCount || 0}</p>
+                            ${p.coverUrl ? `<img class="cover" src="${p.coverUrl}" alt="${p.name}">` : '<p>Нет обложки</p>'}
+                        </div>
+                    `;
+                });
+
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">❌ Ошибка: ${error.message}</p>`;
+            }
+        }
+
+        // Автозагрузка при открытии
+        window.onload = loadPlaylists;
+    </script>
+</body>
+</html>

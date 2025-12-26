@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Docker
+docker-compose.override.yml
+
+# Database
+*.sqlite
+*.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Production
+.env.production
+
+# Tauri / Desktop App
+src-tauri/target/
+src-tauri/WixTools/
+src-tauri/icons/*.ico
+src-tauri/icons/*.icns
+
+# Uploads and media
+uploads/
+*.mp3
+*.wav
+*.flac
+*.m4a
+
+# Cache and runtime
+.cache/
+*.pid
+*.seed
+*.lock
+
+# OS files
+Thumbs.db
+Desktop.ini

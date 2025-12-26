@@ -1,0 +1,107 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: auto-update-migration
+  namespace: music-auto-update
+  labels:
+    app: auto-update-migration
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: auto-update-migration
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox:1.35
+        command: ['sh', '-c', 'until nc -z postgres-service 5432; do echo waiting for postgres; sleep 2; done;']
+      containers:
+      - name: migration
+        image: postgres:15-alpine
+        env:
+        - name: PGHOST
+          value: postgres-service
+        - name: PGPORT
+          value: "5432"
+        - name: PGDATABASE
+          value: music_db
+        - name: PGUSER
+          value: music_user
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: DATABASE_URL
+        command:
+        - sh
+        - -c
+        - |
+          psql -f /scripts/init.sql
+        volumeMounts:
+        - name: init-scripts
+          mountPath: /scripts
+      volumes:
+      - name: init-scripts
+        configMap:
+          name: postgres-init
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: auto-update-backup
+  namespace: music-auto-update
+spec:
+  schedule: "0 2 * * *"  # Каждый день в 2:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: postgres:15-alpine
+            env:
+            - name: PGHOST
+              value: postgres-service
+            - name: PGDATABASE
+              value: music_db
+            - name: PGUSER
+              value: music_user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auto-update-secrets
+                  key: DATABASE_URL
+            command:
+            - sh
+            - -c
+            - |
+              BACKUP_FILE="/backups/music_db_$(date +%Y%m%d_%H%M%S).sql.gz"
+              pg_dump | gzip > $BACKUP_FILE
+              echo "Backup created: $BACKUP_FILE"
+              # Удалить бэкапы старше 7 дней
+              find /backups -name "*.sql.gz" -mtime +7 -delete
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+  namespace: music-auto-update
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: standard

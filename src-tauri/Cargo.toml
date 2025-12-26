@@ -1,0 +1,24 @@
+[package]
+name = "errorparty"
+version = "1.0.0"
+description = "ErrorParty.ru Desktop - Музыкальный плеер и TeamSpeak хаб"
+authors = ["ErrorParty Team"]
+license = "MIT"
+repository = "https://github.com/errorparty/errorparty"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset", "tray-icon", "image-png"] }
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[features]
+# This feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]

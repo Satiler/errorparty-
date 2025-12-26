@@ -1,0 +1,36 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore environment files
+.env
+.env.*
+!.env.example
+
+# Ignore build artifacts
+dist/
+build/
+
+# Ignore temp files
+tmp/
+temp/
+*.tmp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore test coverage
+coverage/
+
+# Ignore documentation builds
+docs/_build/

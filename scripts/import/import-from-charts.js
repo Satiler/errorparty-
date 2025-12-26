@@ -1,0 +1,188 @@
+/**
+ * Правильный импорт из чартов
+ * iTunes API - ТОЛЬКО метаданные (что популярно)
+ * VK/Lmusic/Yandex - реальные ПОЛНЫЕ треки
+ */
+
+require('dotenv').config();
+const { Sequelize, Op } = require('sequelize');
+const { Track } = require('./src/models');
+const itunesService = require('./src/services/lastfm.service');
+const vkMusic = require('./src/services/vk-music.service');
+const lmusic = require('./src/modules/music/lmusic-kz.service');
+
+async function importFromCharts() {
+  console.log('\n🎵 === ИМПОРТ ИЗ ЧАРТОВ (ПРАВИЛЬНАЯ АРХИТЕКТУРА) ===\n');
+  console.log('📋 iTunes API → метаданные популярности');
+  console.log('🎶 VK/Lmusic → полные треки\n');
+  
+  try {
+    // 1. Получаем метаданные из iTunes (ЧТО популярно)
+    console.log('📊 Шаг 1: Получаем чарты из iTunes...\n');
+    const charts = await itunesService.getGlobalTop100();
+    console.log(`✅ Получено ${charts.length} позиций в чартах\n`);
+    
+    let imported = 0;
+    let skipped = 0;
+    let notFound = 0;
+    const sources = { vk: 0, lmusic: 0, yandex: 0 };
+    
+    // 2. Для каждой позиции ищем ПОЛНЫЙ трек
+    for (const [index, chartTrack] of charts.entries()) {
+      console.log(`\n[${index + 1}/${charts.length}] ${chartTrack.artist} - ${chartTrack.title}`);
+      console.log(`  📍 Позиция: ${chartTrack.position} | Жанр: ${chartTrack.genre}`);
+      
+      // Проверяем, нет ли уже в базе
+      const existing = await Track.findOne({
+        where: {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn('LOWER', Sequelize.col('artist')),
+              Sequelize.fn('LOWER', chartTrack.artist)
+            ),
+            Sequelize.where(
+              Sequelize.fn('LOWER', Sequelize.col('title')),
+              Sequelize.fn('LOWER', chartTrack.title)
+            )
+          ]
+        }
+      });
+      
+      if (existing) {
+        console.log(`  ⏭️  Уже в базе (ID: ${existing.id})`);
+        
+        // Обновляем метаданные из чартов
+        await existing.update({
+          chartPosition: chartTrack.position,
+          popularityScore: (100 - chartTrack.position) * 100,
+          trendingDate: new Date(),
+          genre: chartTrack.genre || existing.genre,
+          coverUrl: chartTrack.image || existing.coverUrl
+        });
+        
+        skipped++;
+        continue;
+      }
+      
+      // 3. Ищем ПОЛНЫЙ трек на реальных источниках
+      const query = `${chartTrack.artist} ${chartTrack.title}`;
+      let foundTrack = null;
+      let source = null;
+      
+      // Приоритет 1: VK Music (лучший источник)
+      try {
+        console.log('  🔍 VK Music...');
+        const vkResults = await vkMusic.searchTracks(query, 1);
+        if (vkResults.length > 0 && vkResults[0].streamUrl) {
+          foundTrack = vkResults[0];
+          source = 'vk-music';
+          sources.vk++;
+          console.log(`  ✅ Найден на VK Music`);
+        } else {
+          console.log('  ⚠️  Не найден на VK');
+        }
+      } catch (err) {
+        console.log(`  ❌ VK ошибка: ${err.message}`);
+      }
+      
+      // Приоритет 2: Lmusic.kz
+      if (!foundTrack) {
+        try {
+          console.log('  🔍 Lmusic.kz...');
+          const lmusicResults = await lmusic.searchTracks(query, 1);
+          if (lmusicResults.length > 0 && lmusicResults[0].streamUrl) {
+            foundTrack = lmusicResults[0];
+            source = 'lmusic-kz';
+            sources.lmusic++;
+            console.log(`  ✅ Найден на Lmusic.kz`);
+          } else {
+            console.log('  ⚠️  Не найден на Lmusic');
+          }
+        } catch (err) {
+          console.log(`  ❌ Lmusic ошибка: ${err.message}`);
+        }
+      }
+      
+      // 4. Импортируем если нашли ПОЛНЫЙ трек
+      if (foundTrack && foundTrack.streamUrl) {
+        // Проверка что это не preview
+        if (foundTrack.streamUrl.includes('preview') || 
+            foundTrack.streamUrl.includes('itunes://') ||
+            (foundTrack.duration && foundTrack.duration <= 30)) {
+          console.log('  ⚠️  Это preview, пропускаем');
+          notFound++;
+          continue;
+        }
+        
+        try {
+          const newTrack = await Track.create({
+            title: foundTrack.title || chartTrack.title,
+            artist: foundTrack.artist || chartTrack.artist,
+            streamUrl: foundTrack.streamUrl,
+            coverUrl: chartTrack.image || foundTrack.coverUrl, // обложка из iTunes
+            genre: chartTrack.genre, // жанр из iTunes
+            chartPosition: chartTrack.position, // позиция из iTunes
+            popularityScore: (100 - chartTrack.position) * 100,
+            trendingDate: new Date(),
+            importSource: source,
+            duration: foundTrack.duration || 180,
+            allowDownload: true
+          });
+          
+          console.log(`  💾 Импортирован (ID: ${newTrack.id}, источник: ${source})`);
+          imported++;
+        } catch (err) {
+          console.log(`  ❌ Ошибка сохранения: ${err.message}`);
+          notFound++;
+        }
+      } else {
+        console.log('  ❌ Не найден ни на одном источнике');
+        notFound++;
+      }
+      
+      // Задержка между запросами
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    // Итоги
+    console.log('\n\n📊 === ИТОГИ ИМПОРТА ===\n');
+    console.log(`✅ Импортировано: ${imported}`);
+    console.log(`⏭️  Уже были: ${skipped}`);
+    console.log(`❌ Не найдено: ${notFound}`);
+    console.log(`📈 Покрытие: ${Math.round((imported + skipped) / charts.length * 100)}%\n`);
+    
+    console.log('📊 Источники:');
+    console.log(`  🎵 VK Music: ${sources.vk}`);
+    console.log(`  🎵 Lmusic.kz: ${sources.lmusic}`);
+    console.log(`  🎵 Яндекс.Музыка: ${sources.yandex}\n`);
+    
+    console.log('✅ Импорт завершен!\n');
+    
+    return {
+      imported,
+      skipped,
+      notFound,
+      total: charts.length,
+      sources
+    };
+    
+  } catch (error) {
+    console.error('❌ Ошибка импорта:', error);
+    throw error;
+  }
+}
+
+// Запуск
+if (require.main === module) {
+  importFromCharts()
+    .then(() => {
+      console.log('🎉 Готово!');
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error('💥 Критическая ошибка:', error);
+      process.exit(1);
+    });
+}
+
+module.exports = { importFromCharts };

@@ -1,0 +1,632 @@
+[
+  {
+    "name": "MiyaGi",
+    "url": "https://sefon.pro/artist/161-miyagi/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/miyagi.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Король и Шут",
+    "url": "https://sefon.pro/artist/6811-korol-i-shut/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/korol-i-shut.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Руки Вверх",
+    "url": "https://sefon.pro/artist/740-ruki-vverh/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ruki-vverh.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Сектор Газа",
+    "url": "https://sefon.pro/artist/6982-sektor-gaza/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/sektor-gaza.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Виктор Цой",
+    "url": "https://sefon.pro/artist/4400-viktor-tsoj/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/viktor-tsoj.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Rammstein",
+    "url": "https://sefon.pro/artist/2100-rammstein/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/rammstein.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Юрий Шатунов",
+    "url": "https://sefon.pro/artist/5818-yurij-shatunov/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/yurij-shatunov.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Михаил Круг",
+    "url": "https://sefon.pro/artist/5039-mihail-krug/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/mihail-krug.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Бутырка",
+    "url": "https://sefon.pro/artist/441-butyrka/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/butyrka.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Eminem",
+    "url": "https://sefon.pro/artist/1324-eminem/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/eminem.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ислам Итляшев",
+    "url": "https://sefon.pro/artist/62663-islam-itlyashev/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/islam-itlyashev.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Jony",
+    "url": "https://sefon.pro/artist/39610-jony/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/jony.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "ANNA ASTI",
+    "url": "https://sefon.pro/artist/121032-anna-asti/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/anna-asti.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ленинград",
+    "url": "https://sefon.pro/artist/95-leningrad/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/leningrad.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Modern Talking",
+    "url": "https://sefon.pro/artist/3257-modern-talking/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/modern-talking.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Zivert",
+    "url": "https://sefon.pro/artist/6632-zivert-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/zivert.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Би-2",
+    "url": "https://sefon.pro/artist/107-bi-2/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/bi-2.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Баста",
+    "url": "https://sefon.pro/artist/1248-basta/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/basta.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Макс Корж",
+    "url": "https://sefon.pro/artist/159-maks-korzh/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/maks-korzh.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Григорий Лепс",
+    "url": "https://sefon.pro/artist/1320-grigorij-leps/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/grigorij-leps.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Стас Михайлов",
+    "url": "https://sefon.pro/artist/437-stas-mihajlov/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/stas-mihajlov.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Океан Ельзи",
+    "url": "https://sefon.pro/artist/5546-okean-elzi/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/okean-elzi.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "NЮ",
+    "url": "https://sefon.pro/artist/39702-nyu/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/nyu.jpeg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Гио Пика",
+    "url": "https://sefon.pro/artist/84921-gio-pika/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/gio-pika.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Imagine Dragons",
+    "url": "https://sefon.pro/artist/547-imagine-dragons/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/imagine-dragons.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "BTS",
+    "url": "https://sefon.pro/artist/13146-bts/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/bts.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Каспийский Груз",
+    "url": "https://sefon.pro/artist/2675-kaspijskij-gruz/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/kaspijskij-gruz.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Linkin Park",
+    "url": "https://sefon.pro/artist/392-linkin-park/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/linkin-park.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Егор Крид",
+    "url": "https://sefon.pro/artist/89-egor-krid/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/egor-krid.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ария",
+    "url": "https://sefon.pro/artist/123-ariya/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ariya.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Михаил Шуфутинский",
+    "url": "https://sefon.pro/artist/443-mihail-shufutinskij/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/mihail-shufutinskij.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Олег Винник",
+    "url": "https://sefon.pro/artist/5729-oleg-vinnik/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/oleg-vinnik.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Metallica",
+    "url": "https://sefon.pro/artist/108-metallica/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/metallica.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Andy Panda",
+    "url": "https://sefon.pro/artist/41065-andy-panda/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/andy-panda.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Артём Пивоваров",
+    "url": "https://sefon.pro/artist/2349-artem-pivovarov/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/artem-pivovarov.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Enigma",
+    "url": "https://sefon.pro/artist/781-enigma/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/enigma.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ани Лорак",
+    "url": "https://sefon.pro/artist/80-ani-lorak/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ani-lorak.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Scorpions",
+    "url": "https://sefon.pro/artist/14716-scorpions/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/scorpions.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Алёна Швец",
+    "url": "https://sefon.pro/artist/66019-alena-shvets/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/alena-shvets.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Владимир Высоцкий",
+    "url": "https://sefon.pro/artist/3223-vladimir-vysotskij-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/vladimir-vysotskij.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Мари Краймбрери",
+    "url": "https://sefon.pro/artist/1391-mari-krajmbreri-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/mari-krajmbreri.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Инна Вальтер",
+    "url": "https://sefon.pro/artist/12132-inna-valter/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/inna-valter.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Валерий Меладзе",
+    "url": "https://sefon.pro/artist/4782-valerij-meladze/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/valerij-meladze.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Алла Пугачёва",
+    "url": "https://sefon.pro/artist/2226-alla-pugacheva/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/alla-pugacheva.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Michael Jackson",
+    "url": "https://sefon.pro/artist/3312-michael-jackson/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/michael-jackson.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Иван Кучин",
+    "url": "https://sefon.pro/artist/5416-ivan-kuchin/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ivan-kuchin.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Скриптонит",
+    "url": "https://sefon.pro/artist/150-skriptonit/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/skriptonit.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Сергей Завьялов",
+    "url": "https://sefon.pro/artist/96820-sergej-zavyalov/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/sergej-zavyalov.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Татьяна Буланова",
+    "url": "https://sefon.pro/artist/2206-tatyana-bulanova/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/tatyana-bulanova.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Morgenshtern",
+    "url": "https://sefon.pro/artist/78321-morgenshtern/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/morgenshtern.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "HammAli And Navai",
+    "url": "https://sefon.pro/artist/34516-hammali-and-navai/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/hammali-and-navai.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Земфира",
+    "url": "https://sefon.pro/artist/126-zemfira/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/zemfira.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Фактор 2",
+    "url": "https://sefon.pro/artist/2203-faktor-2/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/faktor-2.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "AC-DC",
+    "url": "https://sefon.pro/artist/10904-ac-dc/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ac-dc.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "The Prodigy",
+    "url": "https://sefon.pro/artist/3300-the-prodigy/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/the-prodigy.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Пикник",
+    "url": "https://sefon.pro/artist/6994-piknik/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/piknik.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "ДДТ",
+    "url": "https://sefon.pro/artist/121-ddt/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ddt.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ирина Круг",
+    "url": "https://sefon.pro/artist/419-irina-krug/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/irina-krug.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Enrique Iglesias",
+    "url": "https://sefon.pro/artist/1106-enrique-iglesias/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/enrique-iglesias.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Любэ",
+    "url": "https://sefon.pro/artist/2545-lyubeh/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/lyubeh.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Мот",
+    "url": "https://sefon.pro/artist/141-mot/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/mot.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Queen",
+    "url": "https://sefon.pro/artist/3251-queen/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/queen.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Lady Gaga",
+    "url": "https://sefon.pro/artist/737-lady-gaga/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/lady-gaga.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Виктор Петлюра",
+    "url": "https://sefon.pro/artist/4447-viktor-petlyura-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/viktor-petlyura.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "BlackPink",
+    "url": "https://sefon.pro/artist/39148-blackpink/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/blackpink.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Inna",
+    "url": "https://sefon.pro/artist/702-inna/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/inna.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ляпис Трубецкой",
+    "url": "https://sefon.pro/artist/1299-lyapis-trubetskoj/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/lyapis-trubetskoj.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Верка Сердючка",
+    "url": "https://sefon.pro/artist/3851-verka-serdyuchka/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/verka-serdyuchka.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "50 Cent",
+    "url": "https://sefon.pro/artist/1251-50-cent/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/50-cent.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Lana Del Rey",
+    "url": "https://sefon.pro/artist/576-lana-del-rey/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/lana-del-rey.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Macan",
+    "url": "https://sefon.pro/artist/67745-macan/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/macan.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Макsим",
+    "url": "https://sefon.pro/artist/2212-maksim/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/maksim.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "ЭGO",
+    "url": "https://sefon.pro/artist/142-ehgo/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/ehgo.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Dan Balan",
+    "url": "https://sefon.pro/artist/85-dan-balan/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/dan-balan.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Воровайки",
+    "url": "https://sefon.pro/artist/4390-vorovajki/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/vorovajki.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Виктор Королёв",
+    "url": "https://sefon.pro/artist/4423-viktor-korolev/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/viktor-korolev.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "T1One",
+    "url": "https://sefon.pro/artist/54-t1one-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/t1one.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Нэнси",
+    "url": "https://sefon.pro/artist/4451-nehnsi-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/nehnsi.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Агата Кристи",
+    "url": "https://sefon.pro/artist/4231-agata-kristi/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/agata-kristi.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Филипп Киркоров",
+    "url": "https://sefon.pro/artist/2176-filipp-kirkorov/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/filipp-kirkorov.jpeg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Niletto",
+    "url": "https://sefon.pro/artist/26298-niletto/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/niletto.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Без Обмежень",
+    "url": "https://sefon.pro/artist/62265-bez-obmezhen/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/bez-obmezhen.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Rihanna",
+    "url": "https://sefon.pro/artist/694-rihanna/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/rihanna.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "C.C.Catch",
+    "url": "https://sefon.pro/artist/3329-c-c-catch/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/c-c-catch.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Ирина Аллегрова",
+    "url": "https://sefon.pro/artist/4239-irina-allegrova/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/irina-allegrova.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Dr. Alban",
+    "url": "https://sefon.pro/artist/3328-dr-alban/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/dr-alban.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Сплин",
+    "url": "https://sefon.pro/artist/103-splin/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/splin.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Nautilus Pompilius",
+    "url": "https://sefon.pro/artist/4930-nautilus-pompilius/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/nautilus-pompilius.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Бумер",
+    "url": "https://sefon.pro/artist/1638-bumer/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/bumer.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  },
+  {
+    "name": "Нервы",
+    "url": "https://sefon.pro/artist/124-nervy-new/",
+    "photoUrl": "https://sefon.pro/img/artist_photos/nervy.jpg",
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:27:15.416Z"
+  }
+]

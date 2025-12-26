@@ -1,0 +1,144 @@
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ERRORPARTY DESKTOP APP                        │
+│                         (Tauri 1.5)                             │
+└─────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────────┐  ┌──────────────────────────────┐
+│       FRONTEND (React)        │  │    BACKEND (Rust + Tauri)    │
+│         Port: 5173            │  │                              │
+├───────────────────────────────┤  ├──────────────────────────────┤
+│                               │  │                              │
+│  ┌─────────────────────────┐  │  │  ┌────────────────────────┐  │
+│  │    React Components     │  │  │  │   System Tray Menu     │  │
+│  │  - MusicPlayer          │  │  │  │  - Show/Hide Window    │  │
+│  │  - PlaylistPage         │  │  │  │  - Play/Pause          │  │
+│  │  - MusicLibrary         │  │  │  │  - Next/Prev Track     │  │
+│  └─────────────────────────┘  │  │  │  - Quit                │  │
+│             ↓                 │  │  └────────────────────────┘  │
+│  ┌─────────────────────────┐  │  │                              │
+│  │   Custom Hooks (new!)   │  │  │  ┌────────────────────────┐  │
+│  │  - useTauriMediaKeys    │◄─┼──┼──│  Media Key Events      │  │
+│  │  - useTauriNotifications│  │  │  │  - MediaPlayPause      │  │
+│  │  - isTauriApp()         │  │  │  │  - MediaTrackNext      │  │
+│  └─────────────────────────┘  │  │  │  - MediaTrackPrevious  │  │
+│             ↓                 │  │  └────────────────────────┘  │
+│  ┌─────────────────────────┐  │  │                              │
+│  │   Existing Hooks        │  │  │  ┌────────────────────────┐  │
+│  │  - useMusic.js (17)     │  │  │  │  Window Events         │  │
+│  │  - useAuth.js           │  │  │  │  - Close → Hide        │  │
+│  └─────────────────────────┘  │  │  │  - Minimize to Tray    │  │
+│             ↓                 │  │  └────────────────────────┘  │
+│  ┌─────────────────────────┐  │  │                              │
+│  │   apiClient.js          │  │  │  ┌────────────────────────┐  │
+│  │  - Axios + interceptors │  │  │  │  Notifications         │  │
+│  └─────────────────────────┘  │  │  │  - Native OS           │  │
+│             ↓                 │  │  │  - "Now Playing..."    │  │
+└───────────────────────────────┘  │  └────────────────────────┘  │
+              ↓                    │                              │
+┌───────────────────────────────┐  └──────────────────────────────┘
+│    API Server (Backend)       │              ↑
+│   http://localhost:3001/api   │              │
+├───────────────────────────────┤              │
+│  - Music Module               │              │
+│  - User Authentication        │      Tauri IPC Events
+│  - Playlists                  │              │
+│  - KissVK Integration         │              │
+│  - AI Recommendations         │              │
+└───────────────────────────────┘              │
+              ↓                                │
+┌───────────────────────────────┐              │
+│      PostgreSQL Database      │              │
+│  - 4494 tracks                │              │
+│  - Albums, Artists            │              │
+│  - User playlists             │              │
+└───────────────────────────────┘              │
+                                               │
+┌──────────────────────────────────────────────┘
+│                 USER INTERACTIONS
+├─────────────────────────────────────────────────
+│  🖱️  Click System Tray → Show/Hide Window
+│  ⏯️  Press Media Keys → Control Playback
+│  🔔  Track Change → Native Notification
+│  ❌  Close Window → Minimize to Tray
+│  🚪  Tray Menu → Quit → Full Exit
+└─────────────────────────────────────────────────
+
+
+DESKTOP APP FLOW:
+═══════════════════
+
+1. Запуск:
+   npm run tauri:dev
+   └─> Tauri запускает Vite (localhost:5173)
+   └─> Rust создаёт WebView окно
+   └─> React загружается в окно
+   └─> Регистрируются медиа-хоткеи
+   └─> Создаётся системный трей
+
+2. Воспроизведение музыки:
+   User clicks Play
+   └─> React: audioRef.current.play()
+   └─> Tauri слушает media-key события
+   └─> User нажимает MediaPlayPause
+   └─> Rust отправляет 'media-key' event
+   └─> useTauriMediaKeys обрабатывает
+   └─> audioRef.current.pause()
+
+3. Уведомление о треке:
+   Track changes
+   └─> useTauriNotifications.showNotification()
+   └─> Tauri API вызывает OS notification
+   └─> Windows показывает toast
+   └─> "🎵 Сейчас играет: Artist - Title"
+
+4. Закрытие окна:
+   User clicks X
+   └─> Rust ловит WindowEvent::CloseRequested
+   └─> window.hide() вместо window.close()
+   └─> api.prevent_close()
+   └─> Иконка остаётся в трее
+
+5. Полный выход:
+   User: Tray → Quit
+   └─> Rust: SystemTrayEvent::MenuItemClick("quit")
+   └─> std::process::exit(0)
+   └─> Приложение завершается
+
+
+BUILD OUTPUT:
+═════════════
+
+npm run tauri:build
+  ├─ frontend: vite build
+  │   └─ frontend/dist/ (HTML/CSS/JS)
+  │
+  ├─ tauri: cargo build --release
+  │   ├─ Компиляция Rust (main.rs)
+  │   ├─ Встраивание frontend/dist
+  │   └─ Создание бинарника
+  │
+  └─ bundler: создание установщиков
+      ├─ Windows (NSIS): ErrorParty_1.0.0_x64-setup.exe (~5 МБ)
+      ├─ Windows (MSI): ErrorParty_1.0.0_x64_en-US.msi
+      ├─ macOS (DMG): ErrorParty_1.0.0_x64.dmg
+      └─ Linux (AppImage/DEB)
+
+
+SIZE COMPARISON:
+════════════════
+
+ErrorParty Desktop (Tauri):
+├─ Установщик: 5 МБ
+├─ Установленный размер: 15 МБ
+└─ RAM использование: 50-100 МБ
+
+vs
+
+Spotify Desktop (Electron):
+├─ Установщик: 150+ МБ
+├─ Установленный размер: 500+ МБ
+└─ RAM использование: 300-500 МБ
+
+30x МЕНЬШЕ! 🚀
+```

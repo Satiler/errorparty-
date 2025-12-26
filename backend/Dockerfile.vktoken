@@ -1,0 +1,12 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Установка vkaudiotoken
+RUN pip install --no-cache-dir vkaudiotoken
+
+# Копирование скрипта
+COPY get-vk-token.py .
+
+# Точка входа
+ENTRYPOINT ["python", "get-vk-token.py"]

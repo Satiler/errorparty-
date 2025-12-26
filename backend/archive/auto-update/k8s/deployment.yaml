@@ -1,0 +1,422 @@
+# Kubernetes Deployment для системы автообновления плейлистов
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: music-auto-update
+  labels:
+    name: music-auto-update
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auto-update-config
+  namespace: music-auto-update
+data:
+  NODE_ENV: "production"
+  AUTO_UPDATE_PORT: "3001"
+  LOG_LEVEL: "info"
+  SCHEDULER_ENABLED: "true"
+  ENABLE_CACHE: "true"
+  CACHE_TTL: "3600"
+  
+  # Настройки алгоритма
+  MIN_SCORE_THRESHOLD: "0.6"
+  MAX_PLAYLIST_SIZE: "100"
+  UPDATE_PERCENTAGE: "0.15"
+  REQUIRE_MODERATION: "true"
+  TRACK_TTL: "30"
+  
+  # Веса источников
+  WEIGHT_SPOTIFY: "0.30"
+  WEIGHT_APPLE_MUSIC: "0.25"
+  WEIGHT_BILLBOARD: "0.25"
+  WEIGHT_SHAZAM: "0.20"
+  
+  # Расписание (cron)
+  CHARTS_UPDATE_CRON: "0 3 * * *"
+  KISSVK_IMPORT_CRON: "0 4 * * *"
+  
+  # Лимиты
+  REQUEST_TIMEOUT: "30000"
+  MAX_RETRIES: "3"
+  REQUEST_DELAY: "2000"
+  MAX_CONCURRENT_REQUESTS: "5"
+  MAX_DAILY_IMPORTS: "200"
+  MAX_CONCURRENT_DOWNLOADS: "5"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: auto-update-secrets
+  namespace: music-auto-update
+type: Opaque
+stringData:
+  # PostgreSQL
+  DATABASE_URL: "postgresql://music_user:password@postgres-service:5432/music_db"
+  
+  # Redis
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ""
+  
+  # Spotify API
+  SPOTIFY_CLIENT_ID: "your_spotify_client_id"
+  SPOTIFY_CLIENT_SECRET: "your_spotify_client_secret"
+  
+  # Apple Music API
+  APPLE_TEAM_ID: "your_team_id"
+  APPLE_KEY_ID: "your_key_id"
+  APPLE_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nYOUR_KEY\n-----END PRIVATE KEY-----"
+  
+  # Shazam API
+  SHAZAM_API_KEY: "your_rapidapi_key"
+  
+  # JWT Secret
+  JWT_SECRET: "your_jwt_secret_key"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-storage-pvc
+  namespace: music-auto-update
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logs-pvc
+  namespace: music-auto-update
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-update-service
+  namespace: music-auto-update
+  labels:
+    app: auto-update-service
+spec:
+  replicas: 1  # Одна реплика, так как планировщик должен быть singleton
+  strategy:
+    type: Recreate  # Избегаем дубликатов cron-задач
+  selector:
+    matchLabels:
+      app: auto-update-service
+  template:
+    metadata:
+      labels:
+        app: auto-update-service
+    spec:
+      containers:
+      - name: auto-update
+        image: your-registry/music-auto-update:latest
+        ports:
+        - containerPort: 3001
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: auto-update-config
+              key: NODE_ENV
+        - name: AUTO_UPDATE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: auto-update-config
+              key: AUTO_UPDATE_PORT
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: DATABASE_URL
+        - name: REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: REDIS_PORT
+        - name: SPOTIFY_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: SPOTIFY_CLIENT_ID
+        - name: SPOTIFY_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: SPOTIFY_CLIENT_SECRET
+        - name: APPLE_TEAM_ID
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: APPLE_TEAM_ID
+        - name: APPLE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: APPLE_KEY_ID
+        - name: APPLE_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: APPLE_PRIVATE_KEY
+        - name: SHAZAM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: SHAZAM_API_KEY
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: auto-update-secrets
+              key: JWT_SECRET
+        - name: MUSIC_STORAGE_PATH
+          value: "/data/music"
+        - name: LOG_PATH
+          value: "/logs"
+        
+        volumeMounts:
+        - name: music-storage
+          mountPath: /data/music
+        - name: logs
+          mountPath: /logs
+        
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      
+      volumes:
+      - name: music-storage
+        persistentVolumeClaim:
+          claimName: music-storage-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: logs-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auto-update-service
+  namespace: music-auto-update
+  labels:
+    app: auto-update-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3001
+    targetPort: 3001
+    protocol: TCP
+    name: http
+  selector:
+    app: auto-update-service
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auto-update-ingress
+  namespace: music-auto-update
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - api.yourdomain.com
+    secretName: auto-update-tls
+  rules:
+  - host: api.yourdomain.com
+    http:
+      paths:
+      - path: /api/auto-update
+        pathType: Prefix
+        backend:
+          service:
+            name: auto-update-service
+            port:
+              number: 3001
+
+---
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: music-auto-update
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          value: music_db
+        - name: POSTGRES_USER
+          value: music_user
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: music-auto-update
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres
+
+---
+# Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: music-auto-update
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+          name: redis
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: music-auto-update
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
+
+---
+# HorizontalPodAutoscaler (опционально)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: auto-update-hpa
+  namespace: music-auto-update
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: auto-update-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

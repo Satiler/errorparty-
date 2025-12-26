@@ -1,0 +1,44 @@
+[
+  {
+    "mp3Id": "2615572",
+    "artist": "What So Not",
+    "title": "Tragic",
+    "duration": "04:34",
+    "dateAdded": "4 декабря 2025",
+    "likes": 0,
+    "dislikes": 0,
+    "streamUrl": null,
+    "trackPageUrl": "https://sefon.pro/mp3/2615572-what-so-not-feat-buunshin-alina-pash-tragic/",
+    "coverUrl": null,
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:08:44.366Z"
+  },
+  {
+    "mp3Id": "2615570",
+    "artist": "Rachel Chinouriri",
+    "title": "What A Life",
+    "duration": "04:07",
+    "dateAdded": "4 декабря 2025",
+    "likes": 0,
+    "dislikes": 1,
+    "streamUrl": null,
+    "trackPageUrl": "https://sefon.pro/mp3/2615570-rachel-chinouriri-what-a-life/",
+    "coverUrl": null,
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:08:44.366Z"
+  },
+  {
+    "mp3Id": "2615568",
+    "artist": "Jean",
+    "title": "Procrastinateur",
+    "duration": "03:52",
+    "dateAdded": "4 декабря 2025",
+    "likes": 0,
+    "dislikes": 1,
+    "streamUrl": null,
+    "trackPageUrl": "https://sefon.pro/mp3/2615568-jean-procrastinateur/",
+    "coverUrl": null,
+    "source": "sefon.pro",
+    "scrapedAt": "2025-12-04T07:08:44.366Z"
+  }
+]

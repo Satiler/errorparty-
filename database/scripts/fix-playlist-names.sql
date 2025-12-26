@@ -1,0 +1,10 @@
+UPDATE "Playlists" SET name = '🎵 iTunes Top 100' WHERE id = 308;
+UPDATE "Playlists" SET name = '🆕 Новинки 2025' WHERE id = 309;
+UPDATE "Playlists" SET name = '🌍 Зарубежные хиты' WHERE id = 310;
+UPDATE "Playlists" SET name = '🔥 Топ 50' WHERE id = 311;
+UPDATE "Playlists" SET name = '💿 KissVK Collection' WHERE id = 312;
+UPDATE "Playlists" SET name = '😌 Chill & Relax' WHERE id = 313;
+UPDATE "Playlists" SET name = '🎉 Party Mix' WHERE id = 314;
+UPDATE "Playlists" SET name = '🎲 Микс дня' WHERE id = 315;
+UPDATE "Playlists" SET name = '💋 Хиты с KissVK' WHERE id = 340;
+UPDATE "Playlists" SET name = '🔥 Топ 100' WHERE id = 341;

@@ -1,0 +1,53 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+coverage
+*.test.js
+__tests__
+
+# Documentation
+*.md
+docs
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Temporary files
+*.tmp
+*.log
+*.pid
+*.seed
+
+# Uploads (will be in volume)
+uploads/*
+
+# Steam sentry files
+.steam
+
+# Demos (will be in volume)
+demos/*

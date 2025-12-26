@@ -1,0 +1,15 @@
+# Helm Chart для системы автообновления плейлистов
+
+apiVersion: v2
+name: music-auto-update
+description: Система автоматического обновления музыкальных плейлистов
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - music
+  - playlists
+  - automation
+maintainers:
+  - name: Your Name
+    email: your.email@example.com

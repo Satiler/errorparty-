@@ -1,0 +1,7 @@
+# Tauri build artifacts
+target/
+WixTools/
+
+# Generated icons (будут созданы автоматически)
+# icons/*.ico
+# icons/*.icns

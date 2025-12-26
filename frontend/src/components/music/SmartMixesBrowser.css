@@ -1,0 +1,344 @@
+.smart-mixes-browser {
+  padding: 2rem 0;
+}
+
+.smart-mixes-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.loading-icon {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.smart-mixes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-primary, #ffffff);
+}
+
+.header-content h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.header-content p {
+  margin: 0;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.95rem;
+}
+
+.current-mix-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(29, 185, 84, 0.15);
+  border: 1px solid var(--primary-color, #1db954);
+  border-radius: 2rem;
+}
+
+.indicator-label {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.85rem;
+}
+
+.indicator-mix {
+  color: var(--primary-color, #1db954);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.smart-mixes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.smart-mix-card {
+  background: var(--bg-secondary, #1a1a1a);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.smart-mix-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--mix-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.smart-mix-card:hover::before,
+.smart-mix-card.current-time::before {
+  opacity: 1;
+}
+
+.smart-mix-card:hover {
+  border-color: var(--mix-color);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.smart-mix-card.current-time {
+  border-color: var(--mix-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mix-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.mix-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 1rem;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.current-time-badge {
+  padding: 0.375rem 0.875rem;
+  background: var(--mix-color);
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 1rem;
+}
+
+.mix-card-content {
+  margin-bottom: 1.5rem;
+}
+
+.mix-name {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+.mix-description {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.mix-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.6));
+  font-size: 0.85rem;
+}
+
+.track-count {
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.mix-characteristics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.characteristic-tag {
+  padding: 0.375rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+  white-space: nowrap;
+}
+
+.mix-card-footer {
+  display: flex;
+  justify-content: stretch;
+}
+
+.play-mix-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--mix-color);
+  color: #000;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.play-mix-button:hover:not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.play-mix-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.smart-mixes-info {
+  padding: 2rem;
+  background: var(--bg-secondary, #1a1a1a);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 1rem;
+}
+
+.smart-mixes-info h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.smart-mixes-info p {
+  margin: 0;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .smart-mixes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .smart-mixes-browser {
+    padding: 1rem 0;
+  }
+
+  .smart-mixes-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .current-mix-indicator {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .smart-mixes-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .smart-mix-card {
+    padding: 1.25rem;
+  }
+
+  .mix-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .mix-name {
+    font-size: 1.25rem;
+  }
+
+  .smart-mixes-info {
+    padding: 1.5rem;
+  }
+}
+
+/* Light Theme */
+.light-theme .smart-mix-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .smart-mix-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .mix-name {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.light-theme .mix-description,
+.light-theme .info-item {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.light-theme .track-count {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.light-theme .characteristic-tag {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.light-theme .smart-mixes-info {
+  background: #f9f9f9;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .smart-mixes-info h3 {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.light-theme .smart-mixes-info p {
+  color: rgba(0, 0, 0, 0.7);
+}

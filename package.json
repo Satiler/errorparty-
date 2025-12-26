@@ -1,0 +1,16 @@
+{
+  "name": "errorparty-desktop",
+  "version": "1.0.0",
+  "description": "ErrorParty Desktop - Tauri музыкальный плеер",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build:windows": "tauri build --target x86_64-pc-windows-msvc",
+    "tauri:icon": "tauri icon frontend/public/icons/icon-512x512.png"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.6"
+  }
+}
